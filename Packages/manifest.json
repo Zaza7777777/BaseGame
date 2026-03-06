@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.google.xr.cardboard": "file:C:/Users/s225276224/Desktop/cardboard-xr-plugin-master",
+    "com.google.xr.cardboard": "file:C:/Users/Rafael/Desktop/Virtual Reality/Docs From VPN/cardboard-xr-plugin-1.29.0/cardboard-xr-plugin-master",
     "com.unity.ai.navigation": "2.0.8",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.ide.rider": "3.0.36",
