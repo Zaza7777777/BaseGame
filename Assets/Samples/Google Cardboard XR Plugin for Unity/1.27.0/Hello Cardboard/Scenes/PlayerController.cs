@@ -3,45 +3,83 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float RotateSpeed = 45;
-    public float ForwardSpeed = 1;
-    public Transform Cursor;
+    public float RotateSpeed = 100;
+    public float ForwardSpeed = 5;
+    public float JumpForce = 5;
+    public float LookUpSpeed = 100; // Added look up/down speed
     public Transform VRCamera;
 
-    // Update is called once per frame
+    private Rigidbody rb;
+    private float verticalRotation = 0f; // Track vertical rotation
+    public float maxLookAngle = 80f; // Limit how far up/down you can look
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
-        // Capture controller interactions
         var gamepad = Gamepad.current;
         if (gamepad == null) return;
 
-        // Get direction that left joystick is pointing. x and y both
-        // range from -1 to +1
-        Vector2 direction = gamepad.leftStick.ReadValue();
+        // Get left joystick direction (movement and rotation)
+        Vector2 leftStick = gamepad.leftStick.ReadValue();
 
-        // Rotate left/right based on joystick's left/right position
-        transform.eulerAngles += Vector3.up * (direction.x * RotateSpeed * Time.deltaTime);
+        // Get right joystick direction (looking up/down)
+        Vector2 rightStick = gamepad.rightStick.ReadValue();
 
-        // Move forwards/backwards based on joystick's up/down position.
-        transform.position += transform.forward * (direction.y * ForwardSpeed * Time.deltaTime);
+        // Rotate left/right based on left joystick's left/right position
+        transform.eulerAngles += Vector3.up * (leftStick.x * RotateSpeed * Time.deltaTime);
 
-        // Move cursor
+        // Move forwards/backwards based on left joystick's up/down position
+        transform.position += transform.forward * (leftStick.y * ForwardSpeed * Time.deltaTime);
+
+        // NEW: Look up/down based on right joystick's up/down position
+        if (VRCamera != null)
+        {
+            // Calculate vertical rotation change
+            verticalRotation -= rightStick.y * LookUpSpeed * Time.deltaTime;
+
+            // Clamp the vertical rotation to prevent over-rotation
+            verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
+
+            // Apply the vertical rotation to the camera (local rotation)
+            VRCamera.localEulerAngles = new Vector3(verticalRotation, 0, 0);
+        }
+
+        // Raycast for object interaction
         RaycastHit hit;
         GameObject firstHitObject = null;
 
-        // Does it hit anything on the Interactive layer?
         if (Physics.Raycast(VRCamera.position, VRCamera.forward, out hit))
         {
             firstHitObject = hit.collider.gameObject;
-            Cursor.transform.position = hit.point;
         }
 
-        // Pressed right bumper, see if 
+        // Pressed right bumper for interaction
         if (gamepad.rightShoulder.wasPressedThisFrame && (firstHitObject != null))
         {
-            // Get a ray starting at the camera and pointing in the forward direction.
             ObjectController objectController = firstHitObject.GetComponent<ObjectController>();
             objectController?.OnPointerClick();
+        }
+
+        // Jump when A button is pressed
+        if (gamepad.buttonSouth.wasPressedThisFrame)
+        {
+            Jump();
+        }
+    }
+
+    void Jump()
+    {
+        if (rb != null)
+        {
+            rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+        else
+        {
+            Debug.LogWarning("No Rigidbody attached to player. Jumping requires a Rigidbody component.");
         }
     }
 }
