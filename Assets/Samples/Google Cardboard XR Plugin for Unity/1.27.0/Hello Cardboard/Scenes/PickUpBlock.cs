@@ -32,7 +32,7 @@ public class PickupBlock : MonoBehaviour
         if (blockRenderer != null)
             blockRenderer.material.color = Color.yellow;
 
-        // Delay collider disable so OnTriggerExit fires first
+        
         Invoke("DisableCollider", 0.1f);
     }
 

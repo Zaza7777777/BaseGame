@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance; // Singleton to persist between scenes
+    public static AudioManager instance; 
     public AudioSource musicSource;
     public AudioClip[] tracks;
 
@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps music playing across scenes
+            DontDestroyOnLoad(gameObject); 
         }
         else Destroy(gameObject);
     }

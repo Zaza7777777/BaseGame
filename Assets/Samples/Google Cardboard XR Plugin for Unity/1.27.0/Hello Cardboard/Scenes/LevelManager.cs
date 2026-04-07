@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
         {
             if (!plate.isActivated)
             {
-                // One plate is not pressed, hide everything
+                
                 foreach (GameObject platform in platformsToActivate)
                     if (platform != null)
                         platform.SetActive(false);
@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        // All plates are pressed, show everything
+        
         foreach (GameObject platform in platformsToActivate)
             if (platform != null)
                 platform.SetActive(true);

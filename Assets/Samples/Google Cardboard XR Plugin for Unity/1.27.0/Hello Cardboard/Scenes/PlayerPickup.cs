@@ -23,7 +23,7 @@ public class PlayerPickup : MonoBehaviour
 
     void Update()
     {
-        // Works with new Input System - press E on keyboard
+        
         if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             if (currentBlock != null)
@@ -32,7 +32,7 @@ public class PlayerPickup : MonoBehaviour
                 TryPickup();
         }
 
-        // Gamepad RB button support
+        
         if (Gamepad.current != null && Gamepad.current.rightShoulder.wasPressedThisFrame)
         {
             if (currentBlock != null)

@@ -19,11 +19,11 @@ public class MovingPlatform : MonoBehaviour
     {
         if (pointA == null || pointB == null) return;
 
-        // Move platform
+        
         Vector3 newPosition = Vector3.MoveTowards(rb.position, targetPosition, speed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);
 
-        // Switch direction at ends
+        
         if (Vector3.Distance(rb.position, targetPosition) < 0.01f)
         {
             targetPosition = targetPosition == pointA.position ? pointB.position : pointA.position;

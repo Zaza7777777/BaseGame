@@ -16,7 +16,7 @@ public class TeleportPlatform : MonoBehaviour
 
     private void Teleport(GameObject player)
     {
-        // Teleport the player to the target platform
+        
         player.transform.position = targetPlatform.position;
 
     

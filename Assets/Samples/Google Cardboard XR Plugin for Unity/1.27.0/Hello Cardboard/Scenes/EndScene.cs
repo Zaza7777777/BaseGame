@@ -5,9 +5,9 @@ using System.Collections;
 
 public class EndScreen : MonoBehaviour
 {
-    public Text mainText;      // drag your UI Text here
-    public Text subText;       // smaller text below
-    public Button menuButton;  // drag your button here
+    public Text mainText;      
+    public Text subText;       
+    public Button menuButton;  
 
     void Start()
     {
@@ -40,6 +40,6 @@ public class EndScreen : MonoBehaviour
     public void GoToMenu()
     {
         GameManager.hasEscaped = false;
-        SceneManager.LoadScene("GameScene"); // or your main menu scene
+        SceneManager.LoadScene("GameScene"); 
     }
 }
